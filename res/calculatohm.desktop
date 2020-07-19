@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Calculatohm
+Comment=Resistor calculator
+Exec=calculatohm
+Icon=calculatohm-icon
+Terminal=false
+Categories=Utility;

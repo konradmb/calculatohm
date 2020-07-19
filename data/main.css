@@ -1,0 +1,21 @@
+#SMDInputGrid{
+  background-position: center;
+  background-origin: border-box;
+  background-clip: content-box;
+  background-repeat: no-repeat;
+  background-image: -gtk-recolor(url("icons/SMD-resistor-symbolic.svg"));
+}
+
+#SMDEntry{
+  font-size: 30pt;
+  font-family: monospace;
+}
+
+#result{
+  font-size: 30pt;
+  font-weight: bold;
+}
+
+#resistanceLabel{
+  font-size: 20pt;
+}

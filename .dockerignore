@@ -1,0 +1,6 @@
+build/
+*~
+src/calculatohm
+**/Dockerfile*
+README.md
+/calculatohm_*.nims
