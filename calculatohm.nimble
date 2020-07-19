@@ -124,7 +124,7 @@ task appimage, "Build AppImage":
 
   run "nim c -d:release -d:nimDebugDlOpen -o:AppDir/usr/bin/calculatohm ../src/calculatohm.nim"
 
-  convertImage("../res/calculatohm-icon.svg")
+  convertImage("../data/icons/calculatohm-icon.svg")
 
   # Fix AppImage thumbnail creation
   cpFile("AppDir/usr/share/icons/hicolor/256x256/apps/calculatohm-icon.png", "AppDir/calculatohm-icon.png")
@@ -146,7 +146,7 @@ exec "${EXEC}" "$@"
   """)
   run "chmod +x AppDir/AppRun"
   
-  cpFile("../res/calculatohm-icon.svg", "AppDir/usr/share/icons/hicolor/scalable/apps/calculatohm-icon.svg")
+  cpFile("../data/icons/calculatohm-icon.svg", "AppDir/usr/share/icons/hicolor/scalable/apps/calculatohm-icon.svg")
   cpFile("../res/calculatohm.desktop", "AppDir/usr/share/applications/calculatohm.desktop")
   cpFile("../res/calculatohm.desktop", "AppDir/calculatohm.desktop")
   cpFile("../src/main.css", "AppDir/usr/bin/main.css")
@@ -185,7 +185,7 @@ task windows, "Build Windows binary":
   # TODO
   run "cp /usr/x86_64-w64-mingw32/sys-root/mingw/bin/*.dll ./Windows/bin/"
 
-  cpFile("../res/calculatohm-icon.svg", "Windows/bin/calculatohm-icon.svg")
+  cpFile("../data/icons/calculatohm-icon.svg", "Windows/bin/calculatohm-icon.svg")
   cpFile("../src/main.css", "Windows/bin/main.css")
   cpFile("../src/main.glade", "Windows/bin/main.glade")
   
