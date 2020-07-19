@@ -146,12 +146,14 @@ exec "${EXEC}" "$@"
   """)
   run "chmod +x AppDir/AppRun"
   
+  mkdir("AppDir/usr/data")
   cpFile("../data/icons/calculatohm-icon.svg", "AppDir/usr/share/icons/hicolor/scalable/apps/calculatohm-icon.svg")
   cpFile("../res/calculatohm.desktop", "AppDir/usr/share/applications/calculatohm.desktop")
   cpFile("../res/calculatohm.desktop", "AppDir/calculatohm.desktop")
-  cpFile("../src/main.css", "AppDir/usr/bin/main.css")
-  cpFile("../src/main.glade", "AppDir/usr/bin/main.glade")
+  cpFile("../data/main.css", "AppDir/usr/data/main.css")
+  cpFile("../data/main.glade", "AppDir/usr/data/main.glade")
   cpDir("locale", "AppDir/usr/share/locale")
+  cpDir("../data/icons/", "AppDir/usr/data/icons")
 
   run fmt"VERSION={version} ./linuxdeploy/AppRun  --appdir AppDir"
 
@@ -185,9 +187,11 @@ task windows, "Build Windows binary":
   # TODO
   run "cp /usr/x86_64-w64-mingw32/sys-root/mingw/bin/*.dll ./Windows/bin/"
 
+  mkdir("Windows/data")
   cpFile("../data/icons/calculatohm-icon.svg", "Windows/bin/calculatohm-icon.svg")
-  cpFile("../src/main.css", "Windows/bin/main.css")
-  cpFile("../src/main.glade", "Windows/bin/main.glade")
+  cpFile("../data/main.css", "Windows/data/main.css")
+  cpFile("../data/main.glade", "Windows/data/main.glade")
+  cpDir("../data/icons/", "Windows/data/icons")
   
   run "mkdir -p Windows/share/"
   cpDir "locale", "Windows/share/locale"
