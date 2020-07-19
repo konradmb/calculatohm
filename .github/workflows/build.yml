@@ -1,0 +1,76 @@
+name: Build and release
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - v*
+      - prerelease
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Setup Nim environment
+      uses: jiro4989/setup-nim-action@v1.0.2
+      # with:
+      #   # The Nim version to download (if necessary) and use. Example: 1.0.2
+      #   nim-version: # optional, default is stable
+
+    # Runs a set of commands using the runners shell
+    - name: Build app
+      run: |
+        docker build -t calculatohm .
+        nimble appimageDocker
+        nimble windowsDocker
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: AppImage
+        path: build/Calculatohm*.AppImage
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Windows-64-zip
+        path: build/Calculatohm*Windows-64.zip
+
+    - name: Set ref
+      id: set_ref
+      run: |
+        echo $GITHUB_REF
+        FILTERED_REF=`echo $GITHUB_REF | sed "s?refs/tags/v??"`
+        echo "::set-env name=FILTERED_REF::$FILTERED_REF"
+      
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/v')
+      with:
+        files: |
+          build/Calculatohm*.AppImage
+          build/Calculatohm*Windows-64.zip
+
+        draft: false
+        prerelease: false
+        name: Calculatohm ${{ env.FILTERED_REF }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Prerelease
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/prerelease')
+      with:
+        files: |
+          build/Calculatohm*.AppImage
+          build/Calculatohm*Windows-64.zip
+
+        draft: true
+        prerelease: true
+        name: Calculatohm prerelease
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
